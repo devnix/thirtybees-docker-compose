@@ -1,0 +1,36 @@
+version: '2'
+
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www/default
+      - ./config/nginx/conf.d:/etc/nginx/conf.d
+    networks:
+      - thirtybees-network
+  php:
+    build: docker/php7-fpm
+    volumes:
+      - ./www:/var/www/default
+    networks:
+      - thirtybees-network
+  mysql:
+    image: mariadb
+    environment:
+      - MYSQL_DATABASE=thirtybees
+      - MYSQL_USER=thirtybees
+      - MYSQL_PASSWORD=thirtybees
+      - MYSQL_ROOT_PASSWORD=root
+
+    networks:
+      - thirtybees-network
+  memcached:
+    image: memcached:latest
+    networks:
+      - thirtybees-network
+
+networks:
+  thirtybees-network:
+    driver: bridge
