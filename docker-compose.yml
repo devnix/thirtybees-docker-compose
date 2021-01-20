@@ -18,6 +18,8 @@ services:
       - thirtybees-network
   mysql:
     image: mariadb
+    volumes:
+      - ./mariadb:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=thirtybees
       - MYSQL_USER=thirtybees
